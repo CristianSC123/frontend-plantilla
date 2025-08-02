@@ -9,15 +9,13 @@ import { useTheme } from '@mui/material/styles';
 
 import { _langs, _notifications } from 'src/_mock';
 
-import { NavMobile, NavDesktop } from './nav';
+import {  NavDesktop } from './nav';
 import { layoutClasses } from '../core/classes';
 import { _account } from '../nav-config-account';
 import { dashboardLayoutVars } from './css-vars';
 import { navData } from '../nav-config-dashboard';
 import { MainSection } from '../core/main-section';
 import { Searchbar } from '../components/searchbar';
-import { _workspaces } from '../nav-config-workspace';
-import { MenuButton } from '../components/menu-button';
 import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
 import { AccountPopover } from '../components/account-popover';
@@ -27,6 +25,7 @@ import { NotificationsPopover } from '../components/notifications-popover';
 import type { MainSectionProps } from '../core/main-section';
 import type { HeaderSectionProps } from '../core/header-section';
 import type { LayoutSectionProps } from '../core/layout-section';
+import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -48,9 +47,6 @@ export function DashboardLayout({
   layoutQuery = 'lg',
 }: DashboardLayoutProps) {
   const theme = useTheme();
-
-  const { value: open, onFalse: onClose, onTrue: onOpen } = useBoolean();
-
   const renderHeader = () => {
     const headerSlotProps: HeaderSectionProps['slotProps'] = {
       container: {
@@ -64,28 +60,11 @@ export function DashboardLayout({
           This is an info Alert.
         </Alert>
       ),
-      leftArea: (
-        <>
-          {/** @slot Nav mobile */}
-          <MenuButton
-            onClick={onOpen}
-            sx={{ mr: 1, ml: -1, [theme.breakpoints.up(layoutQuery)]: { display: 'none' } }}
-          />
-          <NavMobile data={navData} open={open} onClose={onClose} workspaces={_workspaces} />
-        </>
-      ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
-          {/** @slot Searchbar */}
           <Searchbar />
-
-          {/** @slot Language popover */}
           <LanguagePopover data={_langs} />
-
-          {/** @slot Notifications popover */}
           <NotificationsPopover data={_notifications} />
-
-          {/** @slot Account drawer */}
           <AccountPopover data={_account} />
         </Box>
       ),
@@ -117,7 +96,7 @@ export function DashboardLayout({
        * @Sidebar
        *************************************** */
       sidebarSection={
-        <NavDesktop data={navData} layoutQuery={layoutQuery} workspaces={_workspaces} />
+        <NavDesktop data={navData} layoutQuery={layoutQuery}  />
       }
       /** **************************************
        * @Footer
