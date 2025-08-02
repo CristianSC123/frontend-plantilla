@@ -12,21 +12,24 @@ import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
+import { UserDTO } from './view/usuarioDto';
 
 // ----------------------------------------------------------------------
 
 export type UserProps = {
   id: string;
   name: string;
+  email: string;
   role: string;
+  password: string;
   status: string;
   company: string;
-  avatarUrl: string;
-  isVerified: boolean;
+  avatarUrl?: string;
+  isVerified?: boolean;
 };
 
 type UserTableRowProps = {
-  row: UserProps;
+  row: UserDTO;
   selected: boolean;
   onSelectRow: () => void;
 };
@@ -57,7 +60,7 @@ export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) 
               alignItems: 'center',
             }}
           >
-            <Avatar alt={row.name} src={row.avatarUrl} />
+            <Avatar alt={row.name} src={`/assets/images/avatar/avatar-${row.id}.webp`} />
             {row.name}
           </Box>
         </TableCell>
@@ -67,7 +70,7 @@ export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) 
         <TableCell>{row.role}</TableCell>
 
         <TableCell align="center">
-          {row.isVerified ? (
+          {true ? (
             <Iconify width={22} icon="solar:check-circle-bold" sx={{ color: 'success.main' }} />
           ) : (
             '-'
@@ -75,7 +78,7 @@ export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) 
         </TableCell>
 
         <TableCell>
-          <Label color={(row.status === 'banned' && 'error') || 'success'}>{row.status}</Label>
+          <Label color={(row.status === 'banned' && 'error') || 'success'}>{row.status || 'ACTIVO '}</Label>
         </TableCell>
 
         <TableCell align="right">

@@ -8,9 +8,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import { UserDTO } from './view/usuarioDto';
 
 export interface FormData {
-  username: string;
+  name: string;
   email: string;
   role: string;
   password: string;
@@ -23,7 +24,7 @@ interface Props {
 
 export function UserFormDialog({ open, onClose }: Props) {
   const [form, setForm] = useState<FormData>({
-    username: '',
+    name: '',
     email: '',
     role: '',
     password: '',
@@ -35,10 +36,13 @@ export function UserFormDialog({ open, onClose }: Props) {
     setForm((prev) => ({ ...prev, [field]: event.target.value }));
   };
 
+
+
+
   const handleSubmit = async () => {
     try {
       await axios.post('http://localhost:3000/users', {
-        username: form.username,
+        name: form.name,
         email: form.email,
         role: form.role,
         password: form.password
@@ -61,9 +65,9 @@ export function UserFormDialog({ open, onClose }: Props) {
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
           <TextField
-            label="Username"
-            value={form.username}
-            onChange={handleChange('username')}
+            label="name"
+            value={form.name}
+            onChange={handleChange('name')}
             fullWidth
           />
           <TextField

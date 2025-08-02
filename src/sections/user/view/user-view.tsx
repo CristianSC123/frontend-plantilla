@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -24,27 +24,51 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 
 import type { UserProps } from '../user-table-row';
 import { UserFormDialog } from '../user-form-dialog';
+import axios from 'axios';
+import { UserDTO } from './usuarioDto';
 
 // ----------------------------------------------------------------------
 
 export function UserView() {
   const table = useTable();
 
-    const [openForm, setOpenForm] = useState(false);
+  const [openForm, setOpenForm] = useState(false);
 
-      const handleCreateUser = (data: FormData) => {
-    console.log('Datos del formulario:', data);
-    // Aquí podés hacer fetch/post a tu API
-  };
   const [filterName, setFilterName] = useState('');
 
-  const dataFiltered: UserProps[] = applyFilter({
-    inputData: _users,
+
+  const [datosUsuarios, setDatosUsuarios] = useState<UserProps[]>([])
+
+  const obtenerUsuarios = async () => {
+    try {
+      const usuarios = await axios.get('http://localhost:3000/users', {
+        headers: {
+          'accept': '*/*',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log(usuarios.data)
+      setDatosUsuarios(usuarios.data)
+
+    } catch (error) {
+      console.error('Error creating user:', error);
+      // You might want to add error handling here (e.g., show a snackbar/alert)
+    }
+  }
+
+    const dataFiltered: UserProps[] = applyFilter({
+    inputData: datosUsuarios,
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
 
+
   const notFound = !dataFiltered.length && !!filterName;
+
+  useEffect(() => {
+    obtenerUsuarios()
+  }, [])
 
   return (
     <DashboardContent>
@@ -58,14 +82,14 @@ export function UserView() {
         <Typography variant="h4" sx={{ flexGrow: 1 }}>
           Users
         </Typography>
-<Button
-  variant="contained"
-  color="inherit"
-  startIcon={<Iconify icon="mingcute:add-line" />}
-  onClick={() => setOpenForm(true)} // 👈 Agregado
->
-  New user
-</Button>
+        <Button
+          variant="contained"
+          color="inherit"
+          startIcon={<Iconify icon="mingcute:add-line" />}
+          onClick={() => setOpenForm(true)} // 👈 Agregado
+        >
+          New user
+        </Button>
       </Box>
 
       <Card>
@@ -138,11 +162,11 @@ export function UserView() {
           onRowsPerPageChange={table.onChangeRowsPerPage}
         />
       </Card>
-<UserFormDialog
-  open={openForm}
-  onClose={() => setOpenForm(false)}
+      <UserFormDialog
+        open={openForm}
+        onClose={() => setOpenForm(false)}
 
-/>
+      />
     </DashboardContent>
   );
 }
