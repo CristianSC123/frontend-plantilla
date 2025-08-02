@@ -25,9 +25,7 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 import type { UserProps } from '../user-table-row';
 import { UserFormDialog } from '../user-form-dialog';
 import axios from 'axios';
-import { UserDTO } from './usuarioDto';
 
-// ----------------------------------------------------------------------
 
 export function UserView() {
   const table = useTable();
@@ -38,6 +36,7 @@ export function UserView() {
 
 
   const [datosUsuarios, setDatosUsuarios] = useState<UserProps[]>([])
+  const [actualizar, setActualizar] = useState(false);
 
   const obtenerUsuarios = async () => {
     try {
@@ -57,7 +56,7 @@ export function UserView() {
     }
   }
 
-    const dataFiltered: UserProps[] = applyFilter({
+  const dataFiltered: UserProps[] = applyFilter({
     inputData: datosUsuarios,
     comparator: getComparator(table.order, table.orderBy),
     filterName,
@@ -68,7 +67,7 @@ export function UserView() {
 
   useEffect(() => {
     obtenerUsuarios()
-  }, [])
+  }, [actualizar])
 
   return (
     <DashboardContent>
@@ -138,12 +137,13 @@ export function UserView() {
                       row={row}
                       selected={table.selected.includes(row.id)}
                       onSelectRow={() => table.onSelectRow(row.id)}
+                      onClose={ ()=> setActualizar(!actualizar)}
                     />
                   ))}
 
                 <TableEmptyRows
                   height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, _users.length)}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
                 />
 
                 {notFound && <TableNoData searchQuery={filterName} />}
@@ -155,7 +155,7 @@ export function UserView() {
         <TablePagination
           component="div"
           page={table.page}
-          count={_users.length}
+          count={dataFiltered.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           rowsPerPageOptions={[5, 10, 25]}
@@ -164,7 +164,10 @@ export function UserView() {
       </Card>
       <UserFormDialog
         open={openForm}
-        onClose={() => setOpenForm(false)}
+        onClose={() => {
+          setOpenForm(false)
+          setActualizar(!actualizar)
+        }}
 
       />
     </DashboardContent>

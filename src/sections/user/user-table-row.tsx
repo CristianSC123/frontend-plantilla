@@ -13,6 +13,7 @@ import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { UserDTO } from './view/usuarioDto';
+import axios from 'axios';
 
 // ----------------------------------------------------------------------
 
@@ -32,9 +33,10 @@ type UserTableRowProps = {
   row: UserDTO;
   selected: boolean;
   onSelectRow: () => void;
+  onClose: () => void;
 };
 
-export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) {
+export function UserTableRow({ row, selected, onSelectRow ,onClose}: UserTableRowProps) {
   const [openPopover, setOpenPopover] = useState<HTMLButtonElement | null>(null);
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
@@ -42,6 +44,21 @@ export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) 
   }, []);
 
   const handleClosePopover = useCallback(() => {
+try {
+      const usuarios = axios.delete(`http://localhost:3000/users/${row.id}`, {
+        headers: {
+          'accept': '*/*',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      alert("Usuario eliminado ")
+      onClose()
+
+    } catch (error) {
+      console.error('Error creating user:', error);
+      // You might want to add error handling here (e.g., show a snackbar/alert)
+    }
     setOpenPopover(null);
   }, []);
 
