@@ -23,12 +23,19 @@ import { UserTableToolbar } from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 import type { UserProps } from '../user-table-row';
+import { UserFormDialog } from '../user-form-dialog';
 
 // ----------------------------------------------------------------------
 
 export function UserView() {
   const table = useTable();
 
+    const [openForm, setOpenForm] = useState(false);
+
+      const handleCreateUser = (data: FormData) => {
+    console.log('Datos del formulario:', data);
+    // Aquí podés hacer fetch/post a tu API
+  };
   const [filterName, setFilterName] = useState('');
 
   const dataFiltered: UserProps[] = applyFilter({
@@ -51,13 +58,14 @@ export function UserView() {
         <Typography variant="h4" sx={{ flexGrow: 1 }}>
           Users
         </Typography>
-        <Button
-          variant="contained"
-          color="inherit"
-          startIcon={<Iconify icon="mingcute:add-line" />}
-        >
-          New user
-        </Button>
+<Button
+  variant="contained"
+  color="inherit"
+  startIcon={<Iconify icon="mingcute:add-line" />}
+  onClick={() => setOpenForm(true)} // 👈 Agregado
+>
+  New user
+</Button>
       </Box>
 
       <Card>
@@ -130,6 +138,11 @@ export function UserView() {
           onRowsPerPageChange={table.onChangeRowsPerPage}
         />
       </Card>
+<UserFormDialog
+  open={openForm}
+  onClose={() => setOpenForm(false)}
+
+/>
     </DashboardContent>
   );
 }
