@@ -1,5 +1,6 @@
 import { Label } from 'src/components/label';
 import { SvgColor } from 'src/components/svg-color';
+import { SignInView } from 'src/sections/auth';
 
 // ----------------------------------------------------------------------
 
@@ -13,9 +14,14 @@ export type NavItem = {
 };
 
 export const navData = [
+  // {
+  //   title: 'Login',
+  //   path: '/login',
+  //   icon: icon('ic-login'),
+  // },
   {
     title: 'Dashboard',
-    path: '/',
+    path: '/dashboard',
     icon: icon('ic-analytics'),
   },
   {
@@ -38,11 +44,11 @@ export const navData = [
     path: '/blog',
     icon: icon('ic-blog'),
   },
-  {
-    title: 'Sign in',
-    path: '/sign-in',
-    icon: icon('ic-lock'),
-  },
+  // {
+  //   title: 'Sign in',
+  //   path: '/sign-in',
+  //   icon: icon('ic-lock'),
+  // },
   {
     title: 'Not found',
     path: '/404',

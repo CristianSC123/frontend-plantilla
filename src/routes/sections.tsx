@@ -1,17 +1,15 @@
+import { JSX, lazy, Suspense } from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
 import type { RouteObject } from 'react-router';
 
-import { lazy, Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
 import { varAlpha } from 'minimal-shared/utils';
-
 import Box from '@mui/material/Box';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
 import { AuthLayout } from 'src/layouts/auth';
 import { DashboardLayout } from 'src/layouts/dashboard';
 
-// ----------------------------------------------------------------------
-
+// Páginas
 export const DashboardPage = lazy(() => import('src/pages/dashboard'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
@@ -19,7 +17,7 @@ export const SignInPage = lazy(() => import('src/pages/sign-in'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
-
+// Loader
 const renderFallback = () => (
   <Box
     sx={{
@@ -40,6 +38,12 @@ const renderFallback = () => (
   </Box>
 );
 
+// Componente para proteger rutas privadas
+function PrivateRoute({ children }: { children: JSX.Element }) {
+  const token = localStorage.getItem('token');
+  return token ? children : <Navigate to="/sign-in" replace />;
+}
+
 export const routesSection: RouteObject[] = [
   {
     element: (
@@ -50,10 +54,11 @@ export const routesSection: RouteObject[] = [
       </DashboardLayout>
     ),
     children: [
-      { index: true, element: <DashboardPage /> },
-      { path: 'user', element: <UserPage /> },
-      { path: 'products', element: <ProductsPage /> },
-      { path: 'blog', element: <BlogPage /> },
+      { index: true, element: <Navigate to="/sign-in" replace /> }, // 🔹 redirección inicial
+      { path: 'dashboard', element: <PrivateRoute><DashboardPage /></PrivateRoute> },
+      { path: 'user', element: <PrivateRoute><UserPage /></PrivateRoute> },
+      { path: 'products', element: <PrivateRoute><ProductsPage /></PrivateRoute> },
+      { path: 'blog', element: <PrivateRoute><BlogPage /></PrivateRoute> },
     ],
   },
   {

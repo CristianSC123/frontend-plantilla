@@ -1,28 +1,47 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react'
+import axios from 'axios'
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
+import Box from '@mui/material/Box'
+import Link from '@mui/material/Link'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
+import TextField from '@mui/material/TextField'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import InputAdornment from '@mui/material/InputAdornment'
 
-import { useRouter } from 'src/routes/hooks';
-
-import { Iconify } from 'src/components/iconify';
-
-// ----------------------------------------------------------------------
+import { useRouter } from 'src/routes/hooks'
+import { Iconify } from 'src/components/iconify'
 
 export function SignInView() {
-  const router = useRouter();
+  const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false)
 
-  const [showPassword, setShowPassword] = useState(false);
+  // Estados para guardar valores del formulario
+  const [email, setEmail] = useState('hello@gmail.com')
+  const [password, setPassword] = useState('@demo1234')
 
-  const handleSignIn = useCallback(() => {
-    router.push('/');
-  }, [router]);
+  const handleSignIn = useCallback(async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/users/login', {
+        email,
+        password,
+      })
+
+      console.log('Respuesta API:', response.data)
+
+      // Guardar token si tu API lo devuelve
+      if (response.data.token) {
+        localStorage.setItem('token', "accesoexitoso")
+      }
+
+      // Redirigir al dashboard
+      router.push('/dashboard')
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error)
+      alert('Credenciales inválidas')
+    }
+  }, [email, password, router])
 
   const renderForm = (
     <Box
@@ -36,7 +55,8 @@ export function SignInView() {
         fullWidth
         name="email"
         label="Email address"
-        defaultValue="hello@gmail.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         sx={{ mb: 3 }}
         slotProps={{
           inputLabel: { shrink: true },
@@ -51,7 +71,8 @@ export function SignInView() {
         fullWidth
         name="password"
         label="Password"
-        defaultValue="@demo1234"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         type={showPassword ? 'text' : 'password'}
         slotProps={{
           inputLabel: { shrink: true },
@@ -79,7 +100,7 @@ export function SignInView() {
         Sign in
       </Button>
     </Box>
-  );
+  )
 
   return (
     <>
@@ -93,12 +114,7 @@ export function SignInView() {
         }}
       >
         <Typography variant="h5">Sign in</Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            color: 'text.secondary',
-          }}
-        >
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           Don’t have an account?
           <Link variant="subtitle2" sx={{ ml: 0.5 }}>
             Get started
@@ -114,13 +130,7 @@ export function SignInView() {
           OR
         </Typography>
       </Divider>
-      <Box
-        sx={{
-          gap: 1,
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
+      <Box sx={{ gap: 1, display: 'flex', justifyContent: 'center' }}>
         <IconButton color="inherit">
           <Iconify width={22} icon="socials:google" />
         </IconButton>
@@ -132,5 +142,5 @@ export function SignInView() {
         </IconButton>
       </Box>
     </>
-  );
+  )
 }
