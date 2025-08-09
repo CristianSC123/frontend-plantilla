@@ -30,12 +30,21 @@ import axios from 'axios';
 export function UserView() {
   const table = useTable();
 
+  const [contador, setContador] = useState<number>(0)
+
+  const [total, setTotal] = useState<number>(60)
+
   const [openForm, setOpenForm] = useState(false);
 
   const [filterName, setFilterName] = useState('');
 
 
   const [datosUsuarios, setDatosUsuarios] = useState<UserProps[]>([])
+
+
+
+
+
   const [actualizar, setActualizar] = useState(false);
 
   const obtenerUsuarios = async () => {
@@ -46,6 +55,7 @@ export function UserView() {
           'Content-Type': 'application/json'
         }
       });
+  
 
       console.log(usuarios.data)
       setDatosUsuarios(usuarios.data)
@@ -65,9 +75,11 @@ export function UserView() {
 
   const notFound = !dataFiltered.length && !!filterName;
 
+
   useEffect(() => {
     obtenerUsuarios()
   }, [actualizar])
+
 
   return (
     <DashboardContent>
@@ -81,13 +93,18 @@ export function UserView() {
         <Typography variant="h4" sx={{ flexGrow: 1 }}>
           Users
         </Typography>
+        <Typography variant="h4" sx={{ flexGrow: 1 }}>
+          Contador: {contador}
+
+        </Typography>
+
         <Button
           variant="contained"
           color="inherit"
           startIcon={<Iconify icon="mingcute:add-line" />}
           onClick={() => setOpenForm(true)} // 👈 Agregado
         >
-          New user
+          Nuevo usuario
         </Button>
       </Box>
 
@@ -118,7 +135,7 @@ export function UserView() {
                 }
                 headLabel={[
                   { id: 'name', label: 'Name' },
-                  { id: 'company', label: 'Company' },
+                  { id: 'email', label: 'Email' },
                   { id: 'role', label: 'Role' },
                   { id: 'isVerified', label: 'Verified', align: 'center' },
                   { id: 'status', label: 'Status' },
@@ -137,7 +154,8 @@ export function UserView() {
                       row={row}
                       selected={table.selected.includes(row.id)}
                       onSelectRow={() => table.onSelectRow(row.id)}
-                      onClose={ ()=> setActualizar(!actualizar)}
+                      onClose={() => setActualizar(!actualizar)}
+                      actualizarEditar={()=>setActualizar(!actualizar)}
                     />
                   ))}
 
@@ -168,6 +186,7 @@ export function UserView() {
           setOpenForm(false)
           setActualizar(!actualizar)
         }}
+        titulo='Formulario Usuario Props'
 
       />
     </DashboardContent>

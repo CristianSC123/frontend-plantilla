@@ -14,8 +14,8 @@ import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { UserDTO } from './view/usuarioDto';
 import axios from 'axios';
+import { UserEditDialog } from './user-edit-dialog';
 
-// ----------------------------------------------------------------------
 
 export type UserProps = {
   id: string;
@@ -34,33 +34,45 @@ type UserTableRowProps = {
   selected: boolean;
   onSelectRow: () => void;
   onClose: () => void;
+  actualizarEditar : ()=>void
 };
 
-export function UserTableRow({ row, selected, onSelectRow ,onClose}: UserTableRowProps) {
-  const [openPopover, setOpenPopover] = useState<HTMLButtonElement | null>(null);
+export function UserTableRow({ row, selected, onSelectRow, onClose,actualizarEditar }: UserTableRowProps) {
+  const [openPopover, setOpenPopover] = useState<HTMLElement | null>(null);
+  const [openForm, setOpenForm] = useState(false);
+  const [actualizar, setActualizar] = useState(false);
+  const [idUsuario, setIdUsuario] = useState<string | null>(null);
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setOpenPopover(event.currentTarget);
   }, []);
 
-  const handleClosePopover = useCallback(() => {
-try {
-      const usuarios = axios.delete(`http://localhost:3000/users/${row.id}`, {
+  const handleClosePopover = () => {
+    setOpenPopover(null);
+  };
+
+  const eliminarUsuario = async () => {
+    try {
+      await axios.delete(`http://localhost:3000/users/${row.id}`, {
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json'
         }
       });
-
-      alert("Usuario eliminado ")
-      onClose()
-
+      alert('Usuario eliminado');
+      onClose();
     } catch (error) {
-      console.error('Error creating user:', error);
-      // You might want to add error handling here (e.g., show a snackbar/alert)
+      console.error('Error eliminando usuario:', error);
+    } finally {
+      handleClosePopover();
     }
-    setOpenPopover(null);
-  }, []);
+  };
+
+  const handleEditarUsuario = () => {
+    setIdUsuario(row.id);
+    setOpenForm(true);
+    handleClosePopover();
+  };
 
   return (
     <>
@@ -82,20 +94,17 @@ try {
           </Box>
         </TableCell>
 
-        <TableCell>{row.company}</TableCell>
-
-        <TableCell>{row.role}</TableCell>
+        <TableCell>{row.email}</TableCell>
+        <TableCell>{row.role || 'usuario'}</TableCell>
 
         <TableCell align="center">
-          {true ? (
-            <Iconify width={22} icon="solar:check-circle-bold" sx={{ color: 'success.main' }} />
-          ) : (
-            '-'
-          )}
+          <Iconify width={22} icon="solar:check-circle-bold" sx={{ color: 'success.main' }} />
         </TableCell>
 
         <TableCell>
-          <Label color={(row.status === 'banned' && 'error') || 'success'}>{row.status || 'ACTIVO '}</Label>
+          <Label color={(row.status === 'banned' && 'error') || 'success'}>
+            {row.status || 'ACTIVO'}
+          </Label>
         </TableCell>
 
         <TableCell align="right">
@@ -128,17 +137,30 @@ try {
             },
           }}
         >
-          <MenuItem onClick={handleClosePopover}>
+          <MenuItem onClick={handleEditarUsuario}>
             <Iconify icon="solar:pen-bold" />
-            Edit
+            Editar
           </MenuItem>
 
-          <MenuItem onClick={handleClosePopover} sx={{ color: 'error.main' }}>
+          <MenuItem onClick={eliminarUsuario} sx={{ color: 'error.main' }}>
             <Iconify icon="solar:trash-bin-trash-bold" />
-            Delete
+            Eliminar
           </MenuItem>
         </MenuList>
       </Popover>
+
+      {idUsuario && (
+        <UserEditDialog
+          open={openForm}
+          onClose={() => {
+            setOpenForm(false);
+            setActualizar(!actualizar);
+          }}
+          titulo="Editar Usuario"
+          userId={idUsuario}
+          actualizarEditar={()=> actualizarEditar()}
+        />
+      )}
     </>
   );
 }

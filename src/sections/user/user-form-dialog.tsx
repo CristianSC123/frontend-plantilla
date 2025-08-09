@@ -8,7 +8,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { UserDTO } from './view/usuarioDto';
 
 export interface FormData {
   name: string;
@@ -20,9 +19,10 @@ export interface FormData {
 interface Props {
   open: boolean;
   onClose: () => void;
+  titulo: string
 }
 
-export function UserFormDialog({ open, onClose }: Props) {
+export function UserFormDialog({ open, onClose , titulo  }: Props) {
   const [form, setForm] = useState<FormData>({
     name: '',
     email: '',
@@ -55,17 +55,18 @@ export function UserFormDialog({ open, onClose }: Props) {
       onClose();
     } catch (error) {
       console.error('Error creating user:', error);
-      // You might want to add error handling here (e.g., show a snackbar/alert)
     }
   };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>New User</DialogTitle>
+      <DialogTitle>
+        {titulo} 
+      </DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
           <TextField
-            label="name"
+            label="Nombre usuario"
             value={form.name}
             onChange={handleChange('name')}
             fullWidth
@@ -83,6 +84,7 @@ export function UserFormDialog({ open, onClose }: Props) {
             fullWidth
           />
           <TextField
+          
             label="Password"
             type="password"
             value={form.password}

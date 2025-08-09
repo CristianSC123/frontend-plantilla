@@ -8,6 +8,6 @@ export type ConfigValue = {
 };
 
 export const CONFIG: ConfigValue = {
-  appName: 'App',
+  appName: 'tic',
   appVersion: packageJson.version,
 };
