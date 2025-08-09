@@ -50,6 +50,11 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     [handleClosePopover, router]
   );
 
+  const cerrarSesion = () => {
+    localStorage.removeItem('token');  // Borra el token
+    router.push('/sign-in');            // Redirige a login
+  };
+
   return (
     <>
       <IconButton
@@ -129,8 +134,9 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth color="error" size="medium" variant="text">
-            Logout
+          <Button fullWidth color="error" size="medium" variant="text"
+          onClick={cerrarSesion}>
+            Cerrar Sesiòn
           </Button>
         </Box>
       </Popover>
