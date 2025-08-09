@@ -18,8 +18,8 @@ export function SignInView() {
   const [showPassword, setShowPassword] = useState(false)
 
   // Estados para guardar valores del formulario
-  const [email, setEmail] = useState('hello@gmail.com')
-  const [password, setPassword] = useState('@demo1234')
+  const [email, setEmail] = useState('lasin@umsa.com')
+  const [password, setPassword] = useState('123')
 
   const handleSignIn = useCallback(async () => {
     try {
