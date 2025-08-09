@@ -85,6 +85,73 @@ Una vez descargado el SVG:
 
 ---
 
+## 🛠️ Crear un nuevo componente
+Para crear un nuevo componente en el proyecto, sigue esta estructura recomendada para mantener la organización y coherencia.
+
+Estructura de carpetas y archivos
+En el directorio src/sections/ crea una carpeta para tu nuevo módulo.
+Ejemplo:
+
+```bash
+src/sections/articulo/
+```
+Dentro de esa carpeta, crea una subcarpeta llamada view que contendrá los componentes visuales específicos.
+
+```
+src/sections/articulo/view/
+```
+En la carpeta view, crea dos archivos principales:
+```
+index.ts — para exportar los componentes del módulo.
+articulo-view.tsx — el componente principal que representará la vista del módulo.
+```
+
+Ejemplo de archivos
+src/sections/articulo/view/index.ts
+
+```ts
+export { default as ArticuloView } from './articulo-view';
+```
+
+src/sections/articulo/view/articulo-view.tsx
+
+```ts
+import React from 'react';
+
+export default function ArticuloView() {
+  return (
+    <div>
+      <h1>Vista del módulo Artículo</h1>
+      {/* Aquí va la lógica y componentes específicos */}
+    </div>
+  );
+}
+```
+Consejos
+Mantén los nombres consistentes y descriptivos para facilitar la navegación del proyecto.
+
+Usa el archivo index.ts para centralizar las exportaciones del módulo y facilitar las importaciones.
+
+Sigue las buenas prácticas de React y TypeScript para mantener el código limpio y mantenible.
+
+### Actualizar Page de articulo 
+
+No olvides actualizar tu page de articulo para mostrar tus componentes
+```ts
+
+import { CONFIG } from 'src/config-global';
+import { ArticuloView } from 'src/sections/articulo/view';
+
+export default function Page() {
+  return (
+    <>
+        <title>{`Articulos - ${CONFIG.appName}`}</title>
+        <ArticuloView/>
+    </>
+  );
+}
+```
+
 ## 5️⃣ Resumen del flujo
 
 1. **Crear página** → `src/pages/[nombre].tsx`
