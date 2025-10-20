@@ -1,38 +1,41 @@
-import { Label } from 'src/components/label';
-import { SvgColor } from 'src/components/svg-color';
-import { SignInView } from 'src/sections/auth';
-
-// ----------------------------------------------------------------------
-
-const icon = (name: string) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} />;
-
-export type NavItem = {
-  title: string;
-  path: string;
-  icon: React.ReactNode;
-  info?: React.ReactNode;
-};
+import { MdDashboard, MdPerson, MdPeople, MdLocalShipping, MdPointOfSale, MdShoppingBag, MdShoppingCart, MdSettings, MdError } from 'react-icons/md';
+import { Label } from 'src/components/label'; 
 
 export const navData = [
-  // {
-  //   title: 'Login',
-  //   path: '/login',
-  //   icon: icon('ic-login'),
-  // },
   {
     title: 'Dashboard',
     path: '/dashboard',
-    icon: icon('ic-analytics'),
+    icon: <MdDashboard size={36}/>,
   },
   {
-    title: 'User',
+    title: 'Usuarios',
     path: '/user',
-    icon: icon('ic-user'),
+    icon: <MdPerson size={36}/>,
   },
   {
-    title: 'Product',
-    path: '/products',
-    icon: icon('ic-cart'),
+    title: 'Clientes',
+    path: '/clientes',
+    icon: <MdPeople size={36}/>,
+  },
+  {
+    title: 'Proveedores',
+    path: '/proveedores',
+    icon: <MdLocalShipping size={36}/>,
+  },
+  {
+    title: 'Ventas',
+    path: '/ventas',
+    icon: <MdPointOfSale size={36}/>,
+  },
+  {
+    title: 'Compras',
+    path: '/compras',
+    icon: <MdShoppingBag size={36}/>,
+  },
+  {
+    title: 'Productos',
+    path: '/articulos',
+    icon: <MdShoppingCart size={36}/>,
     info: (
       <Label color="error" variant="inverted">
         +3
@@ -40,18 +43,13 @@ export const navData = [
     ),
   },
   {
-    title: 'Blog',
-    path: '/blog',
-    icon: icon('ic-blog'),
+    title: 'Configuración',
+    path: '/configuracion',
+    icon: <MdSettings size={36}/>,
   },
-  // {
-  //   title: 'Sign in',
-  //   path: '/sign-in',
-  //   icon: icon('ic-lock'),
-  // },
   {
     title: 'Not found',
-    path: '/404',
-    icon: icon('ic-disabled'),
+    path: '/364',
+    icon: <MdError size={36}/>,
   },
 ];

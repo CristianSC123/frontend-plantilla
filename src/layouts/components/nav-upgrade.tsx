@@ -19,7 +19,7 @@ export function NavUpgrade({ sx, ...other }: StackProps) {
       {...other}
     >
 
-          <Typography>Laboratorio Superior de Informática</Typography>
+          <Typography>Essiet 2025</Typography>
 
     </Box>
   );

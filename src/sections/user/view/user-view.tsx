@@ -25,14 +25,12 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 import type { UserProps } from '../user-table-row';
 import { UserFormDialog } from '../user-form-dialog';
 import axios from 'axios';
+import type { productoDto } from 'src/sections/product/view/productoDto';
 
 
 export function UserView() {
   const table = useTable();
 
-  const [contador, setContador] = useState<number>(0)
-
-  const [total, setTotal] = useState<number>(60)
 
   const [openForm, setOpenForm] = useState(false);
 
@@ -40,12 +38,12 @@ export function UserView() {
 
 
   const [datosUsuarios, setDatosUsuarios] = useState<UserProps[]>([])
-
-
-
-
-
+  const [datosProductos, setDatosProductos] = useState<productoDto[]>([]);
   const [actualizar, setActualizar] = useState(false);
+
+  const [nombre, setNombre] = useState("Sin Nombre")
+  const [contador, setContador] = useState(0);
+
 
   const obtenerUsuarios = async () => {
     try {
@@ -55,16 +53,13 @@ export function UserView() {
           'Content-Type': 'application/json'
         }
       });
-  
-
-      console.log(usuarios.data)
       setDatosUsuarios(usuarios.data)
 
     } catch (error) {
       console.error('Error creating user:', error);
-      // You might want to add error handling here (e.g., show a snackbar/alert)
     }
   }
+
 
   const dataFiltered: UserProps[] = applyFilter({
     inputData: datosUsuarios,
@@ -83,6 +78,7 @@ export function UserView() {
 
   return (
     <DashboardContent>
+      
       <Box
         sx={{
           mb: 5,
@@ -104,9 +100,64 @@ export function UserView() {
           startIcon={<Iconify icon="mingcute:add-line" />}
           onClick={() => setOpenForm(true)} // 👈 Agregado
         >
-          Nuevo usuario
+          New user
         </Button>
       </Box>
+
+      <Box>
+        <p>
+          Nombre: {nombre}
+        </p>
+        <Button
+          variant="contained"
+          color="inherit"
+          startIcon={<Iconify icon="mingcute:add-line" />}
+          onClick={() => setNombre("Cristian")}
+        >
+          Cambiar Nombre
+        </Button>
+        <p>
+          Contador: {contador}
+        </p>
+        <Button
+          disabled = {contador >= 100}
+          variant="contained"
+          color="inherit"
+          onClick={() => setContador(contador + 1)}
+        >
+          Incrementar
+        </Button>
+        <Button
+          disabled = {contador <= 0}
+          variant="contained"
+          color="inherit"
+          onClick={() => setContador(contador - 1)}
+        >
+          Decrementar
+        </Button>
+      </Box>
+
+      {contador >= 50 && (
+        <Box sx={{ mt: 2, mb: 2 }}>
+          <Typography variant="h6" color="error">
+            ¡Casi llegas al limite!
+          </Typography>
+        </Box>
+      )}
+
+      {contador >= 10 ? (
+        <Box sx={{ mt: 2, mb: 2 }}>
+          <Typography variant="h6" color="success">
+            ¡Buen trabajo!
+          </Typography>
+        </Box>
+      ) : (
+        <Box sx={{ mt: 2, mb: 2 }}>
+          <Typography variant="h6" color="warning">
+            Sigue intentándolo.
+          </Typography>
+        </Box>
+      )}
 
       <Card>
         <UserTableToolbar
@@ -155,7 +206,6 @@ export function UserView() {
                       selected={table.selected.includes(row.id)}
                       onSelectRow={() => table.onSelectRow(row.id)}
                       onClose={() => setActualizar(!actualizar)}
-                      actualizarEditar={()=>setActualizar(!actualizar)}
                     />
                   ))}
 

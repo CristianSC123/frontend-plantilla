@@ -1,0 +1,1 @@
+export {default as ArticuloView} from './articulo-view';
