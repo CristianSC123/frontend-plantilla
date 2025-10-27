@@ -18,14 +18,14 @@ export function SignInView() {
   const [showPassword, setShowPassword] = useState(false)
 
   // Estados para guardar valores del formulario
-  const [email, setEmail] = useState('lasin@umsa.com')
-  const [password, setPassword] = useState('123')
+  const [usuario, setUsuario] = useState('')
+  const [contrasenia, setContrasenia] = useState('')
 
   const handleSignIn = useCallback(async () => {
     try {
-      const response = await axios.post('http://localhost:3000/users/login', {
-        email,
-        password,
+      const response = await axios.post('http://localhost:3000/usuarios/login', {
+        usuario,
+        contrasenia,
       })
 
       console.log('Respuesta API:', response.data)
@@ -41,7 +41,7 @@ export function SignInView() {
       console.error('Error al iniciar sesión:', error)
       alert('Credenciales inválidas')
     }
-  }, [email, password, router])
+  }, [usuario, contrasenia, router])
 
   const renderForm = (
     <Box
@@ -53,26 +53,22 @@ export function SignInView() {
     >
       <TextField
         fullWidth
-        name="email"
-        label="Email address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        name="usuario"
+        label="Usuario"
+        value={usuario}
+        onChange={(e) => setUsuario(e.target.value)}
         sx={{ mb: 3 }}
         slotProps={{
           inputLabel: { shrink: true },
         }}
       />
 
-      <Link variant="body2" color="inherit" sx={{ mb: 1.5 }}>
-        Forgot password?
-      </Link>
-
       <TextField
         fullWidth
-        name="password"
-        label="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        name="contrasenia"
+        label="Contrasenia"
+        value={contrasenia}
+        onChange={(e) => setContrasenia(e.target.value)}
         type={showPassword ? 'text' : 'password'}
         slotProps={{
           inputLabel: { shrink: true },
@@ -97,7 +93,7 @@ export function SignInView() {
         variant="contained"
         onClick={handleSignIn}
       >
-        Sign in
+        Iniciar Sesión
       </Button>
     </Box>
   )
@@ -113,34 +109,12 @@ export function SignInView() {
           mb: 5,
         }}
       >
-        <Typography variant="h5">Sign in</Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          Don’t have an account?
-          <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-            Get started
-          </Link>
-        </Typography>
+        <Typography variant="h5">Iniciar Sesión</Typography>
+        <img src ="./Essiet.png" height={150} width={150}/>
       </Box>
       {renderForm}
       <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
-        <Typography
-          variant="overline"
-          sx={{ color: 'text.secondary', fontWeight: 'fontWeightMedium' }}
-        >
-          OR
-        </Typography>
       </Divider>
-      <Box sx={{ gap: 1, display: 'flex', justifyContent: 'center' }}>
-        <IconButton color="inherit">
-          <Iconify width={22} icon="socials:google" />
-        </IconButton>
-        <IconButton color="inherit">
-          <Iconify width={22} icon="socials:github" />
-        </IconButton>
-        <IconButton color="inherit">
-          <Iconify width={22} icon="socials:twitter" />
-        </IconButton>
-      </Box>
     </>
   )
 }

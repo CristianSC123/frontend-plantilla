@@ -14,9 +14,11 @@ export const DashboardPage = lazy(() => import('src/pages/dashboard'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));
-export const ProductsPage = lazy(() => import('src/pages/products'));
+export const ProductsPage = lazy(() => import('src/pages/productos'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const ArticuloPage = lazy(()=> import('src/pages/articulo'));
+export const TecnicoPage = lazy(()=> import('src/pages/tecnicos'));
+export const ProductoPage = lazy(()=> import('src/pages/productos'));
 
 // Loader
 const renderFallback = () => (
@@ -60,7 +62,13 @@ export const routesSection: RouteObject[] = [
       { path: 'user', element: <PrivateRoute><UserPage /></PrivateRoute> },
       { path: 'products', element: <PrivateRoute><ProductsPage /></PrivateRoute> },
       { path: 'blog', element: <PrivateRoute><BlogPage /></PrivateRoute> },
-      { path: 'articulos', element: <PrivateRoute><ArticuloPage /></PrivateRoute>}
+      { path: 'articulos', element: <PrivateRoute><ArticuloPage /></PrivateRoute>},
+      { path: 'tecnicos', element: <PrivateRoute><TecnicoPage /></PrivateRoute>},
+      {
+        path: 'productos',
+        element: <PrivateRoute><ProductoPage /></PrivateRoute>,
+      }
+
     ],
   },
   {

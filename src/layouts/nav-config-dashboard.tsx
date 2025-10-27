@@ -13,8 +13,8 @@ export const navData = [
     icon: <MdPerson size={36}/>,
   },
   {
-    title: 'Clientes',
-    path: '/clientes',
+    title: 'Técnicos',
+    path: '/tecnicos',
     icon: <MdPeople size={36}/>,
   },
   {
@@ -32,9 +32,19 @@ export const navData = [
     path: '/compras',
     icon: <MdShoppingBag size={36}/>,
   },
-  {
+  /*{
     title: 'Productos',
     path: '/articulos',
+    icon: <MdShoppingCart size={36}/>,
+    info: (
+      <Label color="error" variant="inverted">
+        +3
+      </Label>
+    ),
+  },*/
+  {
+    title: 'Productos',
+    path: '/productos',
     icon: <MdShoppingCart size={36}/>,
     info: (
       <Label color="error" variant="inverted">
