@@ -1,47 +1,49 @@
-import { useState, useCallback } from 'react'
-import axios from 'axios'
+import { useState, useCallback } from 'react';
+import axios from 'axios';
 
-import Box from '@mui/material/Box'
-import Link from '@mui/material/Link'
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import InputAdornment from '@mui/material/InputAdornment'
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import InputAdornment from '@mui/material/InputAdornment';
 
-import { useRouter } from 'src/routes/hooks'
-import { Iconify } from 'src/components/iconify'
+import { useRouter } from 'src/routes/hooks';
+import { Iconify } from 'src/components/iconify';
 
 export function SignInView() {
-  const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   // Estados para guardar valores del formulario
-  const [usuario, setUsuario] = useState('')
-  const [contrasenia, setContrasenia] = useState('')
+  const [usuario, setUsuario] = useState('');
+  const [contrasenia, setContrasenia] = useState('');
 
   const handleSignIn = useCallback(async () => {
     try {
       const response = await axios.post('http://localhost:3000/usuarios/login', {
         usuario,
         contrasenia,
-      })
+      });
 
-      console.log('Respuesta API:', response.data)
+      const userData = response.data;
+      localStorage.setItem('id_usuario', userData.id_usuario);
+      localStorage.setItem('id_rol', userData.rol.id_rol);
+      localStorage.setItem('nombres', userData.nombres);
+      localStorage.setItem('apellidos', userData.apellidos);
+      localStorage.setItem('usuario', userData.usuario);
+      localStorage.setItem('token', 'true');
 
-      // Guardar token si tu API lo devuelve
-      if (response.data.token) {
-        localStorage.setItem('token', "accesoexitoso")
-      }
 
-      // Redirigir al dashboard
-      router.push('/dashboard')
+      // Redireccionar al dashboard
+      router.push('/dashboard');
     } catch (error) {
-      console.error('Error al iniciar sesión:', error)
-      alert('Credenciales inválidas')
+      console.error('Error al iniciar sesión:', error);
+      alert('Credenciales inválidas');
     }
-  }, [usuario, contrasenia, router])
+  }, [usuario, contrasenia, router]);
 
   const renderForm = (
     <Box
@@ -96,7 +98,7 @@ export function SignInView() {
         Iniciar Sesión
       </Button>
     </Box>
-  )
+  );
 
   return (
     <>
@@ -110,11 +112,10 @@ export function SignInView() {
         }}
       >
         <Typography variant="h5">Iniciar Sesión</Typography>
-        <img src ="./Essiet.png" height={150} width={150}/>
+        <img src="./Essiet.png" height={150} width={150} />
       </Box>
       {renderForm}
-      <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
-      </Divider>
+      <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}></Divider>
     </>
-  )
+  );
 }

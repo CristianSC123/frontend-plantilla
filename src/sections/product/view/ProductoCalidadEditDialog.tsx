@@ -46,15 +46,24 @@ export function ProductoCalidadEditDialog({ open, onClose, productoCalidad, titu
 
   const handleSubmit = async () => {
     try {
-      if (!productoCalidad) return;
+      if (!productoCalidad) {
+        alert('No hay producto seleccionado');
+        return;
+      }
+
+      // Validación de IDs antes de enviar al backend
+      if (!productoCalidad.id_producto || !productoCalidad.calidad.id_calidad) {
+        alert('Faltan datos de identificación del producto o calidad');
+        return;
+      }
 
       const payload = {
         precio_venta: precioVenta,
         stock: stock,
       };
-      
+
       await axios.patch(
-        `http://localhost:3000/productos-calidad/${productoCalidad.id_producto_calidad}`,
+        `http://localhost:3000/productos/actualizar-calidad/${productoCalidad.id_producto_calidad}`,
         payload
       );
 
@@ -77,11 +86,7 @@ export function ProductoCalidadEditDialog({ open, onClose, productoCalidad, titu
             <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
               Calidad (No editable)
             </Typography>
-            <Chip 
-              label={productoCalidad.calidad.nombre_calidad} 
-              size="small" 
-              color="default"
-            />
+            <Chip label={productoCalidad.calidad.nombre_calidad} size="small" color="default" />
           </Box>
 
           {/* Campos editables */}

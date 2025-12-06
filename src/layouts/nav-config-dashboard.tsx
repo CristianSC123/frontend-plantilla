@@ -52,14 +52,9 @@ export const navData = [
       </Label>
     ),
   },
-  {
+  /*{
     title: 'Configuración',
     path: '/configuracion',
     icon: <MdSettings size={36}/>,
-  },
-  {
-    title: 'Not found',
-    path: '/364',
-    icon: <MdError size={36}/>,
-  },
+  }*/
 ];

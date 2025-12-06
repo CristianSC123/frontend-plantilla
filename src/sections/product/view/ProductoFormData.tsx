@@ -291,7 +291,7 @@ export function ProductoFormDialog({ open, onClose, titulo, onSuccess }: Props) 
                       <TableCell>Calidad</TableCell>
                       <TableCell align="center">Precio</TableCell>
                       <TableCell align="center">Stock</TableCell>
-                      <TableCell align="right">Acciones</TableCell>
+                      <TableCell align="center">Acciones</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

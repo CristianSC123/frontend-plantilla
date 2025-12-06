@@ -10,18 +10,10 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { Iconify } from 'src/components/iconify';
-import { TecnicoFormDialog } from './view/TecnicoFormData';
 import { ConfirmDialog } from 'src/components/alerts/ConfirmDialog';
 import { MessageSnackbar } from 'src/components/alerts/MessageSnackbar';
-
-interface TecnicoProps {
-    id_tecnico: string;
-    nombres: string;
-    apellidos: string;
-    codigo: string;
-    telefono: string;
-    activo: boolean;
-}
+import { ProveedorProps } from 'src/sections/proveedor/view/proveedorFormData';
+import { ProveedorFormDialog } from 'src/sections/proveedor/view/proveedorFormData';
 
 interface BasicTableProps {
     openForm: boolean;
@@ -30,12 +22,12 @@ interface BasicTableProps {
 }
 
 export default function BasicTable({ openForm, onOpenForm, onCloseForm }: BasicTableProps) {
-    const [tecnicos, setTecnicos] = useState<TecnicoProps[]>([]);
-    const [selectedTecnico, setSelectedTecnico] = useState<TecnicoProps | null>(null);
+    const [proveedores, setProveedores] = useState<ProveedorProps[]>([]);
+    const [selectedProveedor, setSelectedProveedor] = useState<ProveedorProps | null>(null);
 
     // Para la confirmación modal
     const [confirmOpen, setConfirmOpen] = useState(false);
-    const [tecnicoToDelete, setTecnicoToDelete] = useState<TecnicoProps | null>(null);
+    const [proveedorToDelete, setTecnicoToDelete] = useState<ProveedorProps | null>(null);
 
     // Para mensajes Snackbar
     const [msgOpen, setMsgOpen] = useState(false);
@@ -46,52 +38,52 @@ export default function BasicTable({ openForm, onOpenForm, onCloseForm }: BasicT
         return `${nombre.charAt(0)}${apellido.charAt(0)}`.toUpperCase();
     };
 
-    const obtenerTecnicos = async () => {
+    const obtenerProveedores = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/tecnicos');
-            setTecnicos(response.data);
+            const response = await axios.get('http://localhost:3000/proveedores');
+            setProveedores(response.data);
         } catch (error) {
-            console.error('Error obteniendo técnicos:', error);
-            setMsg('Error obteniendo técnicos');
+            console.error('Error obteniendo proveedores:', error);
+            setMsg('Error obteniendo proveedores');
             setSeverity('error');
             setMsgOpen(true);
         }
     };
 
     useEffect(() => {
-        obtenerTecnicos();
+        obtenerProveedores();
     }, []);
 
-    const handleEdit = (tecnico: TecnicoProps) => {
-        setSelectedTecnico(tecnico);
+    const handleEdit = (proveedor: ProveedorProps) => {
+        setSelectedProveedor(proveedor);
         onOpenForm();
     };
 
     const handleCreate = () => {
-        setSelectedTecnico(null);
+        setSelectedProveedor(null);
         onOpenForm();
     };
 
     // Aquí abrimos el modal confirmación para eliminar
-    const handleDeleteRequest = (tecnico: TecnicoProps) => {
-        setTecnicoToDelete(tecnico);
+    const handleDeleteRequest = (proveedor: ProveedorProps) => {
+        setTecnicoToDelete(proveedor);
         setConfirmOpen(true);
     };
 
     const handleConfirmDelete = async () => {
-        if (!tecnicoToDelete) return;
+        if (!proveedorToDelete) return;
 
         try {
-            await axios.delete(`http://localhost:3000/tecnicos/${tecnicoToDelete.id_tecnico}`);
-            setMsg(`Técnico ${tecnicoToDelete.nombres} eliminado correctamente`);
+            await axios.delete(`http://localhost:3000/proveedores/${proveedorToDelete.id_proveedor}`);
+            setMsg(`Proveedor ${proveedorToDelete.nombre_proveedor} eliminado correctamente`);
             setSeverity('success');
             setMsgOpen(true);
             setConfirmOpen(false);
             setTecnicoToDelete(null);
-            obtenerTecnicos();
+            obtenerProveedores();
         } catch (error) {
-            console.error('Error deshabilitando técnico:', error);
-            setMsg('Error al eliminar técnico');
+            console.error('Error deshabilitando proveedor:', error);
+            setMsg('Error al eliminar proveedor');
             setSeverity('error');
             setMsgOpen(true);
             setConfirmOpen(false);
@@ -104,47 +96,45 @@ export default function BasicTable({ openForm, onOpenForm, onCloseForm }: BasicT
     };
 
     const handleCloseFormInternal = () => {
-        setSelectedTecnico(null);
+        setSelectedProveedor(null);
         onCloseForm();
-        obtenerTecnicos();
+        obtenerProveedores();
     };
 
     return (
         <>
             <TableContainer component={Paper} sx={{ mb: 2 }}>
-                <Table sx={{ minWidth: 650 }} aria-label="tabla técnicos">
+                <Table sx={{ minWidth: 650 }} aria-label="tabla proveedores">
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">Avatar</TableCell>
-                            <TableCell align="center">Código</TableCell>
-                            <TableCell align="center">Nombres</TableCell>
-                            <TableCell align="center">Apellidos</TableCell>
-                            <TableCell align="center">Telefono</TableCell>
+                            <TableCell align="center">Nombre</TableCell>
+                            <TableCell align="center">Correo Electrónico</TableCell>
+                            <TableCell align="center">Teléfono</TableCell>
                             <TableCell align="center">Activo</TableCell>
                             <TableCell align="center">Acciones</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {tecnicos.map((tecnico) => (
-                            <TableRow key={tecnico.id_tecnico}>
+                        {proveedores.map((proveedor) => (
+                            <TableRow key={proveedor.id_proveedor}>
                                 <TableCell align="center">
                                     {/* Avatar con iniciales */}
                                     <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
                                         <Avatar sx={{ bgcolor: '#1976d2', width: 40, height: 40 }}>
-                                            {getInitials(tecnico.nombres, tecnico.apellidos)}
+                                            {getInitials(proveedor.nombre_proveedor, proveedor.nombre_proveedor)}
                                         </Avatar>
                                     </Stack>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <Typography variant="body2">{tecnico.codigo}</Typography>
+                                    <Typography variant="body2">{proveedor.nombre_proveedor}</Typography>
                                 </TableCell>
 
-                                <TableCell align="center">{tecnico.nombres}</TableCell>
-                                <TableCell align="center">{tecnico.apellidos}</TableCell>
-                                <TableCell align="center">{tecnico.telefono}</TableCell>
+                                <TableCell align="center">{proveedor.correo_proveedor}</TableCell>
+                                <TableCell align="center">{proveedor.telefono_proveedor}</TableCell>
 
                                 <TableCell align="center">
-                                    {tecnico.activo ? (
+                                    {proveedor.activo ? (
                                         <Chip label="Activo" color="success" size="small" />
                                     ) : (
                                         <Chip label="Inactivo" color="error" size="small" />
@@ -152,10 +142,10 @@ export default function BasicTable({ openForm, onOpenForm, onCloseForm }: BasicT
                                 </TableCell>
 
                                 <TableCell align="right">
-                                    <IconButton onClick={() => handleEdit(tecnico)}>
+                                    <IconButton onClick={() => handleEdit(proveedor)}>
                                         <Iconify icon="solar:pen-bold" />
                                     </IconButton>
-                                    <IconButton onClick={() => handleDeleteRequest(tecnico)}>
+                                    <IconButton onClick={() => handleDeleteRequest(proveedor)}>
                                         <Iconify icon="solar:trash-bin-trash-bold" />
                                     </IconButton>
                                 </TableCell>
@@ -170,23 +160,23 @@ export default function BasicTable({ openForm, onOpenForm, onCloseForm }: BasicT
                 onClick={handleCreate}
                 sx={{ position: 'fixed', bottom: 16, right: 16, bgcolor: 'background.paper' }}
                 size="large"
-                aria-label="Nuevo Técnico"
+                aria-label="Nuevo Proveedor"
             >
                 <Iconify icon="mingcute:add-line" width={32} height={32} />
             </IconButton>
 
-            <TecnicoFormDialog
+            <ProveedorFormDialog
                 open={openForm}
                 onClose={handleCloseFormInternal}
-                tecnico={selectedTecnico ?? undefined}
-                titulo={selectedTecnico ? `Editar Técnico: ${selectedTecnico.nombres}` : 'Nuevo Técnico'}
+                proveedor={selectedProveedor ?? undefined}
+                titulo={selectedProveedor ? `Editar Proveedor: ${selectedProveedor.nombre_proveedor}` : 'Nuevo Proveedor'}
             />
 
             {/* Confirmación modal */}
             <ConfirmDialog
                 open={confirmOpen}
                 title="Confirmar eliminación"
-                description={`¿Estás seguro que quieres eliminar al técnico ${tecnicoToDelete?.nombres}?`}
+                description={`¿Estás seguro que quieres eliminar al proveedor ${proveedorToDelete?.nombre_proveedor}?`}
                 onCancel={handleCancelDelete}
                 onConfirm={handleConfirmDelete}
             />

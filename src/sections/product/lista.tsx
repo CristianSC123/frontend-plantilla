@@ -147,7 +147,7 @@ export default function BasicTable({ openForm, onOpenForm, onCloseForm }: BasicT
               <TableCell align="center">Calidad</TableCell>
               <TableCell align="center">Precio</TableCell>
               <TableCell align="center">Stock</TableCell>
-              <TableCell align="right">Acciones</TableCell>
+              <TableCell align="center">Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -1,5 +1,4 @@
 import { CONFIG } from 'src/config-global';
-import {ArticuloView} from 'src/sections/articulo/view';
 import TecnicoView from 'src/sections/tecnico/view/tecnico-view';
 
 export default function TecnicoPage() {
