@@ -62,9 +62,6 @@ export function DashboardLayout({
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
-          <Searchbar />
-          <LanguagePopover data={_langs} />
-          <NotificationsPopover data={_notifications} />
           <AccountPopover data={_account} />
         </Box>
       ),

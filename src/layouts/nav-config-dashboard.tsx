@@ -9,7 +9,7 @@ export const navData = [
   },
   {
     title: 'Usuarios',
-    path: '/user',
+    path: '/usuarios',
     icon: <MdPerson size={36}/>,
   },
   {
@@ -27,11 +27,11 @@ export const navData = [
     path: '/ventas',
     icon: <MdPointOfSale size={36}/>,
   },
-  {
+  /*{
     title: 'Compras',
     path: '/compras',
     icon: <MdShoppingBag size={36}/>,
-  },
+  },*/
   /*{
     title: 'Productos',
     path: '/articulos',

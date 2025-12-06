@@ -13,9 +13,12 @@ import {
 
 // ----------------------------------------------------------------------
 
+const user = localStorage.getItem('usuario');
+const apellidosUser = localStorage.getItem('apellidos');
+
 export const _myAccount = {
-  displayName: 'Jaydon Frankie',
-  email: 'demo@minimals.cc',
+  displayName: apellidosUser,
+  user: user || '',
   photoURL: '/assets/images/avatar/avatar-25.webp',
 };
 

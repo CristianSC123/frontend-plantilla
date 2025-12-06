@@ -10,6 +10,7 @@ import { AuthLayout } from 'src/layouts/auth';
 import { DashboardLayout } from 'src/layouts/dashboard';
 import ProveedorPage from 'src/pages/proveedores';
 import VentaPage from 'src/pages/ventas';
+import UsuarioPage from 'src/pages/usuarios';
 
 // Páginas
 export const DashboardPage = lazy(() => import('src/pages/dashboard'));
@@ -61,7 +62,8 @@ export const routesSection: RouteObject[] = [
     children: [
       { index: true, element: <Navigate to="/sign-in" replace /> }, 
       { path: 'dashboard', element: <PrivateRoute><DashboardPage /></PrivateRoute> },
-      { path: 'user', element: <PrivateRoute><UserPage /></PrivateRoute> },
+      //{ path: 'user', element: <PrivateRoute><UserPage /></PrivateRoute> },
+      { path: 'usuarios', element: <PrivateRoute><UsuarioPage /></PrivateRoute>},
       { path: 'products', element: <PrivateRoute><ProductsPage /></PrivateRoute> },
       { path: 'blog', element: <PrivateRoute><BlogPage /></PrivateRoute> },
       { path: 'articulos', element: <PrivateRoute><ArticuloPage /></PrivateRoute>},
