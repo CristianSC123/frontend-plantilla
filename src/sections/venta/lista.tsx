@@ -17,7 +17,7 @@ import { VentaFormData } from './view/VentaFormData';
 import { MessageSnackbar } from 'src/components/alerts/MessageSnackbar';
 import { generarPDFVenta } from 'src/utils/pdf-generator';
 
-interface DetalleVenta {
+export interface DetalleVenta {
     id_detalle: string;
     cantidad: number;
     precioUnitario: number;
@@ -35,7 +35,7 @@ interface DetalleVenta {
     };
 }
 
-interface VentaProps {
+export interface VentaProps {
     id_venta: string;
     fecha: string;
     total: number;

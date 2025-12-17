@@ -11,6 +11,8 @@ import { DashboardLayout } from 'src/layouts/dashboard';
 import ProveedorPage from 'src/pages/proveedores';
 import VentaPage from 'src/pages/ventas';
 import UsuarioPage from 'src/pages/usuarios';
+import AsistentePage from 'src/pages/asistente';
+import CompraView from 'src/sections/compra/view/compra-view';
 
 // Páginas
 export const DashboardPage = lazy(() => import('src/pages/dashboard'));
@@ -64,12 +66,13 @@ export const routesSection: RouteObject[] = [
       { path: 'dashboard', element: <PrivateRoute><DashboardPage /></PrivateRoute> },
       //{ path: 'user', element: <PrivateRoute><UserPage /></PrivateRoute> },
       { path: 'usuarios', element: <PrivateRoute><UsuarioPage /></PrivateRoute>},
-      { path: 'products', element: <PrivateRoute><ProductsPage /></PrivateRoute> },
       { path: 'blog', element: <PrivateRoute><BlogPage /></PrivateRoute> },
       { path: 'articulos', element: <PrivateRoute><ArticuloPage /></PrivateRoute>},
       { path: 'proveedores', element: <PrivateRoute><ProveedorPage /></PrivateRoute>},
       { path: 'tecnicos', element: <PrivateRoute><TecnicoPage /></PrivateRoute>},
       { path: 'ventas', element: <PrivateRoute><VentaPage /></PrivateRoute>},
+      { path: 'asistente', element: <PrivateRoute><AsistentePage /></PrivateRoute>},
+      { path: 'compras', element: <PrivateRoute><CompraView /></PrivateRoute>},
       {
         path: 'productos',
         element: <PrivateRoute><ProductoPage /></PrivateRoute>,

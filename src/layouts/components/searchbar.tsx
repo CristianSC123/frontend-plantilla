@@ -1,8 +1,6 @@
 import type { BoxProps } from '@mui/material/Box';
-
 import { useState, useCallback } from 'react';
 import { varAlpha } from 'minimal-shared/utils';
-
 import Box from '@mui/material/Box';
 import Slide from '@mui/material/Slide';
 import Input from '@mui/material/Input';

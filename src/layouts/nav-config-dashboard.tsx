@@ -1,4 +1,4 @@
-import { MdDashboard, MdPerson, MdPeople, MdLocalShipping, MdPointOfSale, MdShoppingBag, MdShoppingCart, MdSettings, MdError } from 'react-icons/md';
+import { MdDashboard, MdPerson, MdPeople, MdLocalShipping, MdPointOfSale, MdShoppingBag, MdShoppingCart, MdSettings, MdError, MdSmartToy } from 'react-icons/md';
 import { Label } from 'src/components/label'; 
 
 export const navData = [
@@ -27,21 +27,16 @@ export const navData = [
     path: '/ventas',
     icon: <MdPointOfSale size={36}/>,
   },
-  /*{
+  {
     title: 'Compras',
     path: '/compras',
     icon: <MdShoppingBag size={36}/>,
-  },*/
-  /*{
-    title: 'Productos',
-    path: '/articulos',
-    icon: <MdShoppingCart size={36}/>,
-    info: (
-      <Label color="error" variant="inverted">
-        +3
-      </Label>
-    ),
-  },*/
+  },
+  {
+    title: 'Asistente IA',
+    path: '/asistente',
+    icon: <MdSmartToy size={36} />,
+  },
   {
     title: 'Productos',
     path: '/productos',
